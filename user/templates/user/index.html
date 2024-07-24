@@ -1,0 +1,106 @@
+{% extends "user/base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+{% block title %}Home{% endblock title %}
+{% block description %}Discover our amazing services and learn more about our company.{% endblock description %}
+{% block content %} 
+<!-- Hero Section --> 
+<section id="hero">
+<div class="hero-container">
+    <div class="hero-content">
+        {% if not user.is_authenticated %}
+        <h1>WELCOME TO THE DATING APP</h1>
+        <p>Let's get started</p>
+        <a href="{% url 'accounts:register' %}" class="button"><span></span>Create Account</a>
+        {% endif %}
+
+    </div>
+</div> 
+</section>
+{% endblock content %}
+{% block body %}
+  <!-- About Section -->
+<section id="about" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">About Us</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{% static 'images/about-us.jpg' %}" alt="About Us" class="img-fluid rounded">
+            </div>
+            <div class="col-md-6">
+                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+                <p>Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.</p> -->
+                <a href="/about" class="btn btn-outline-primary">Learn More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Our Services</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Web Design</h5>
+                        <p class="card-text">We create beautiful and functional websites tailored to your needs.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Digital Marketing</h5>
+                        <p class="card-text">Boost your online presence with our effective marketing strategies.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">SEO Optimization</h5>
+                        <p class="card-text">Improve your search engine rankings and drive more traffic to your site.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Contact Us</h2>
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% block extra_js %}
+<script>
+    // You can add any page-specific JavaScript here
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Index page loaded');
+    });
+</script>
+{% endblock extra_js %}
+{% endblock body %}
+

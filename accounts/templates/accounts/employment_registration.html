@@ -1,0 +1,30 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/ui.css' %}">
+<h2>Employment Registration</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const companyFields = document.querySelectorAll('#id_company_name, #id_designation, #id_location');
+
+        function toggleCompanyFields() {
+            companyFields.forEach(field => {
+                field.closest('p').style.display = 
+                    document.querySelector('input[name="employment_type"]:checked').value === 'employee' ? 'block' : 'none';
+            });
+        }
+
+        document.querySelectorAll('input[name="employment_type"]').forEach(radio => {
+            radio.addEventListener('change', toggleCompanyFields);
+        });
+
+        toggleCompanyFields();
+    });
+</script>
+{% endblock %}

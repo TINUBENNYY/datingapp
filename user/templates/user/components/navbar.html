@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+</head>
+<body>
+  <div class="navbar">
+      <a href="/">
+        <img src="{% static 'images/logo.png' %}" class="logo">
+    </a>
+
+    
+      <ul class="nav-menu">
+        <li><a href="{% url 'user:index' %}">Home</a></li>
+        <li><a href="#">Matches</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+        {% if not user.is_authenticated %}
+          <li><a href="{% url 'accounts:login' %}">Login</a></li>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <li class="dropdown">
+          <a href="" class="dropdown-toggle">Profile</a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Change Password</a></li>
+            <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          </ul>
+        </li>
+        {% endif %}
+      </ul>
+  </div>
+  <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+</html>
+
+  
