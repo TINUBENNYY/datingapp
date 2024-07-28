@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm, Form, TextInput, PasswordInput, CharField,EmailInput, DateInput, Select
-from .models import User, UserProfile, EmploymentProfile
+from .models import MatchPreference, User, UserProfile, EmploymentProfile
 from django.contrib.auth.hashers import make_password
 
 class UserCreationForm(ModelForm):
@@ -78,8 +78,8 @@ class EmploymentProfileForm(forms.ModelForm):
         model = EmploymentProfile
         fields = ['employment_type', 'company_name', 'designation', 'location', 'job_title', 'expertise_level']
         widgets = {
-            'employment_type': forms.RadioSelect,
-            'expertise_level': forms.RadioSelect,
+            'employment_type': forms.RadioSelect(attrs={'class': 'radio'}),
+            'expertise_level': forms.RadioSelect(attrs={'class': 'radio'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -87,3 +87,14 @@ class EmploymentProfileForm(forms.ModelForm):
         self.fields['company_name'].required = False
         self.fields['designation'].required = False
         self.fields['location'].required = False
+
+class MatchPreferenceForm(forms.ModelForm):
+    class Meta:
+        model = MatchPreference
+        fields = ['gender', 'seeking', 'age_min', 'age_max']
+        widgets = {
+            'gender': forms.Select(attrs={'class': 'form-control'}),
+            'seeking': forms.Select(attrs={'class': 'form-control'}),
+            'age_min': forms.NumberInput(attrs={'class': 'form-control', 'min': 18, 'max': 100}),
+            'age_max': forms.NumberInput(attrs={'class': 'form-control', 'min': 18, 'max': 100}),
+        }

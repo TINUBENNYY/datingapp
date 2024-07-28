@@ -1,6 +1,7 @@
 {% extends "user/base.html" %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 {% block title %}Home{% endblock title %}
 {% block description %}Discover our amazing services and learn more about our company.{% endblock description %}
 {% block content %} 
@@ -19,25 +20,32 @@
 </section>
 {% endblock content %}
 {% block body %}
-  <!-- About Section -->
-<section id="about" class="py-5">
+<section id="services" class="py-5 bg-light">
     <div class="container">
-        <h2 class="text-center mb-4">About Us</h2>
+        <h2 class="text-center mb-4" style="color: #009688;">User Profiles</h2>
         <div class="row">
-            <div class="col-md-6">
-                <img src="{% static 'images/about-us.jpg' %}" alt="About Us" class="img-fluid rounded">
+            {% for profile in profile_data %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100" style="border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 10px;">
+                    <div class="card-body text-center">
+                        {% if profile.profile_pic %}
+                        <img src="{{ profile.profile_pic }}" alt="Profile Picture" class="rounded-circle mb-3" style="width: 100px; height: 100px; border: 2px solid #009688; padding: 5px;">
+                        {% endif %}
+                        <h5 class="card-title" style="font-size: 1.25rem; color: #009688;">{{ profile.username }}</h5>
+                        <p class="card-text" style="color: #555;">Age: {{ profile.age }}</p>
+                        <p class="card-text" style="color: #555;">Location: {{ profile.location }}</p>
+                        <p class="card-text" style="color: #555;">Qualification: {{ profile.qualification }}</p>
+                        <p class="card-text" style="color: #555;">{{ profile.description }}</p>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
-                <p>Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.</p> -->
-                <a href="/about" class="btn btn-outline-primary">Learn More</a>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
 
 <!-- Services Section -->
-<section id="services" class="py-5 bg-light">
+<!-- <section id="services" class="py-5 bg-light">
     <div class="container">
         <h2 class="text-center mb-4">Our Services</h2>
         <div class="row">
@@ -64,6 +72,23 @@
                         <p class="card-text">Improve your search engine rankings and drive more traffic to your site.</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div> -->
+<!-- </section> -->
+
+ <!-- About Section -->
+<section id="about" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">About Us</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{% static 'images/about-us.jpg' %}" alt="About Us" class="img-fluid rounded">
+            </div>
+            <div class="col-md-6">
+                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+                <p>Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.</p> -->
+                <a href="/about" class="btn btn-outline-primary">Learn More</a>
             </div>
         </div>
     </div>

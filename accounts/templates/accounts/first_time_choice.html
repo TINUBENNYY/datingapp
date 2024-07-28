@@ -1,0 +1,11 @@
+{% extends 'user/base.html' %}
+{% block content %}
+<div class="choice-container">
+    <h2>Welcome! What are you looking for?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="choice" value="short_term">Short Term</button>
+        <button type="submit" name="choice" value="long_term">Long Term</button>
+    </form>
+</div>
+{% endblock %}

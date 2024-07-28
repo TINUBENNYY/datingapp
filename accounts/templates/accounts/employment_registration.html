@@ -1,30 +1,70 @@
-{% extends 'shared/base.html' %}
+{% extends 'user/base.html' %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/ui.css' %}">
-<h2>Employment Registration</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+<div class="card">
+    <h2>Employment Registration</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="radio">
+            <input type="radio" id="employee" name="employment_type" value="employee" required>
+            <label for="employee">Employee/Employer</label>
+        </div>
+        <div class="radio">
+            <input type="radio" id="job_seeker" name="employment_type" value="job_seeker" required>
+            <label for="job_seeker">Job Seeker</label>
+        </div>
+        <div id="company_fields">
+            <div class="form-group">
+                <label for="company_name">Company name:</label>
+                <input type="text" id="company_name" name="company_name">
+            </div>
+            <div class="form-group">
+                <label for="designation">Designation:</label>
+                <input type="text" id="designation" name="designation">
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="job_title">Job title:</label>
+            <input type="text" id="job_title" name="job_title" required>
+        </div>
+        <div class="radio">
+            <input type="radio" id="beginner" name="expertise_level" value="beginner" required>
+            <label for="beginner">Beginner</label>
+        </div>
+        <div class="radio">
+            <input type="radio" id="intermediate" name="expertise_level" value="intermediate" required>
+            <label for="intermediate">Intermediate</label>
+        </div>
+        <div class="radio">
+            <input type="radio" id="expert" name="expertise_level" value="expert" required>
+            <label for="expert">Expert</label>
+        </div>
+        <div class="form-group">
+            <button class="btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const companyFields = document.querySelectorAll('#id_company_name, #id_designation, #id_location');
+        const companyFields = document.getElementById('company_fields');
+        const employmentTypeRadios = document.querySelectorAll('input[name="employment_type"]');
 
         function toggleCompanyFields() {
-            companyFields.forEach(field => {
-                field.closest('p').style.display = 
-                    document.querySelector('input[name="employment_type"]:checked').value === 'employee' ? 'block' : 'none';
-            });
+            const isEmployee = document.querySelector('input[name="employment_type"]:checked').value === 'employee';
+            companyFields.style.display = isEmployee ? 'block' : 'none';
         }
 
-        document.querySelectorAll('input[name="employment_type"]').forEach(radio => {
+        employmentTypeRadios.forEach(radio => {
             radio.addEventListener('change', toggleCompanyFields);
         });
 
-        toggleCompanyFields();
+        toggleCompanyFields(); // Initial check to set the correct state on page load
     });
 </script>
 {% endblock %}

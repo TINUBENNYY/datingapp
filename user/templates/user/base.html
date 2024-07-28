@@ -36,15 +36,12 @@
             {% endblock content %}    
         </div>
     </section>
-<main id="main">
-    
-    {% block body %}
-        
-    {% endblock body %}
-        
-</main>
-         </div>
-
+    <section id="body">
+        <div class="body-container">
+            {% block body %}
+            {% endblock body %}
+        </div>
+    </section>
    {% block footer %}
      
    {% endblock footer %}

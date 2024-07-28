@@ -1,0 +1,18 @@
+<!-- match_preference.html in accounts/templates/accounts/ -->
+{% extends 'user/base.html' %}
+{% load static %}
+{% block title %}Match Preferences{% endblock title %}
+{% block description %}Set Your Match Preferences{% endblock description %}
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+{% block content %}
+<div class="container card">
+    <div class="header">
+        <h1>Set Your Match Preferences</h1>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-primary"><span></span>SAVE</button>
+    </form>
+</div>
+{% endblock %}
