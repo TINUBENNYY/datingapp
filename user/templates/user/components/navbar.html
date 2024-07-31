@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 </head>
 <body>
-  <div class="navbar">
+  <div class="navbar" id="navbar">
       <a href="/">
-        <img src="{% static 'images/logo.png' %}" class="logo">
+        <img src="{% static '/images/logo.png' %}" class="logo">
     </a>
 
     
@@ -33,7 +33,18 @@
         {% endif %}
       </ul>
   </div>
-  <script src="{% static 'js/scripts.js' %}"></script>
+
+
+<script src="{% static 'js/scripts.js' %}">
+window.addEventListener('scroll', function() {
+  var navbar = document.getElementById('navbar');
+  if (window.scrollY > 50) { // Change '50' to the scroll position where the change should happen
+      navbar.classList.add('scrolled');
+  } else {
+      navbar.classList.remove('scrolled');
+  }
+});
+</script>
 </body>
 </html>
 

@@ -32,3 +32,11 @@ document.querySelector('.hamburger').addEventListener('click', function() {
     document.querySelector('.nav-menu').classList.toggle('active');
 });
 
+window.addEventListener('scroll', function() {
+    var navbar = document.getElementById('navbar');
+    if (window.scrollY > 50) { // Change '50' to the scroll position where the change should happen
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});

@@ -1,29 +1,28 @@
 from django.shortcuts import render
-from django.views.generic import View, TemplateView
-from accounts.models import EmploymentProfile, UserProfile
-# Create your views here.
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView
+from accounts.models import UserProfile, EmploymentProfile, MatchPreference, User
+
+class IndexView(View):
+    def get(self, request):
+        profiles = UserProfile.objects.all()
+        return render(request, 'user/index.html', {'profiles': profiles})
+    
+class UserProfileDetailView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'user/user_profile_details.html'
+    context_object_name = 'profile_user'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        context['user_profile'] = UserProfile.objects.get(user=user)
+        context['employment_profile'] = EmploymentProfile.objects.filter(user=user).first()
+        context['match_preference'] = MatchPreference.objects.filter(user=user).first()
+        return context
 
 
-class IndexView(TemplateView):
-    template_name = "user/index.html"
 
-def user_profiles_view(request):
-    profiles = UserProfile.objects.select_related('user').all()
-    employment_profiles = EmploymentProfile.objects.select_related('user').all()
-    profile_data = []
 
-    for profile in profiles:
-        employment = employment_profiles.filter(user=profile.user).first()
-        profile_data.append({
-            'user' : profile.user,
-            'age' : profile.age,
-            'location' : employment.location if employment else None,
-            'qualification' : profile.qualification,
-            'profile_pic' : profile.profile_pic.url if profile.profile_pic else None,
-            'description' : f"{profile.hobbies} {profile.interests}",
-        })
-        
-    context = {
-        'profile_data' : profile_data
-    }
-    return render(request, 'user/user_profiles.html', context)
+   

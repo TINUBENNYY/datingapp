@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile_user.get_full_name }}'s Profile</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Profile Header Section -->
+        <div class="profile-header">
+            <img src="{{ profile_user.userprofile.profile_pic.url }}" alt="{{ profile_user.username }}" class="profile-pic">
+            <h1>{{ profile_user.get_full_name }}</h1>
+            <p>Age: {{ profile_user.userprofile.age }}</p>
+            <p>{{ profile_user.get_gender_display }}</p>
+        </div>
+
+        <!-- Profile Info Section -->
+        <div class="profile-info">
+            <h2>About Me</h2>
+            <p>{{ user_profile.interest }}</p>
+
+            <h2>Personal Details</h2>
+            <p>Location: {{ user_profile.city }}, {{ user_profile.country }}</p>
+            <p>Work: {{ employment_profile.designation }} at {{ employment_profile.company_name }}</p>
+            <p>Education: {{ user_profile.qualification }}</p>
+
+            <h2>Interests</h2>
+            <p>{{ user_profile.hobbies }}</p>
+
+            <h2>Preferences</h2>
+            <p>Looking for: {{ match_preference.get_seeking_display }}, {{ match_preference.age_min }}-{{ match_preference.age_max }} years old</p>
+
+            <h2>Lifestyle</h2>
+            <p>Smoking: {{ user_profile.smoking_habits }}</p>
+            <p>Drinking: {{ user_profile.drinking_habits }}</p>
+        </div>
+
+        <!-- Profile Gallery Section -->
+        <div class="profile-gallery">
+            <h2>Photos</h2>
+            <div class="gallery-images">
+                {% for image in user_profile.images.all %}
+                <img src="{{ user_profile.user_images.url }}" alt="User gallery image">
+                {% endfor %}
+            </div>
+
+            <h2>Short Reel</h2>
+            {% if user_profile.short_reel %}
+            <video controls>
+                <source src="{{ user_profile.short_reel.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            {% else %}
+            <p>No reel available</p>
+            {% endif %}
+        </div>
+
+        <!-- Profile Actions Section -->
+        <div class="profile-actions">
+            <button>Chat Now</button>
+            <button>Send Virtual Gift</button>
+        </div>
+    </div>
+</body>
+</html>

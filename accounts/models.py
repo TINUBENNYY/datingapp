@@ -9,7 +9,6 @@ class User(AbstractUser):
         ('F', 'Female'),
     )
     phone = models.CharField(max_length=10, blank=True, null=True)
-    dob = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
 
 class UserProfile(models.Model):
@@ -25,10 +24,12 @@ class UserProfile(models.Model):
     profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     multiple_images = models.ImageField(upload_to='user_images/', blank=True, null=True)
     short_reel = models.FileField(upload_to='user_reels/', blank=True, null=True)
-    first_time_login = models.BooleanField(default=True)
-
+    first_time_login = models.BooleanField(default=True)  
+    country = models.CharField(max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
     def is_complete(self):
-        required_fields = [self.age, self.dob, self.hobbies, self.interest]
+        required_fields = [self.age, self.dob, self.hobbies, self.interest, self.country, self.city]
         return all(field is not None for field in required_fields)
 
 class EmploymentProfile(models.Model):

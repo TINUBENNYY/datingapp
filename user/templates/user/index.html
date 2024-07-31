@@ -13,36 +13,50 @@
         <h1>WELCOME TO THE DATING APP</h1>
         <p>Let's get started</p>
         <a href="{% url 'accounts:register' %}" class="button"><span></span>Create Account</a>
+        {% else %}
+        <h1>Welcome back, {{ user.username }}! Ready to find your match?</h1>
         {% endif %}
 
     </div>
 </div> 
 </section>
+
 {% endblock content %}
+
 {% block body %}
-<section id="services" class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-4" style="color: #009688;">User Profiles</h2>
+
+<section id="profiles" class="py-5 bg-light">
+    <div class="container-inside">
+        <h2 class="text-center mb-4">User Profiles</h2>
         <div class="row">
-            {% for profile in profile_data %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100" style="border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 10px;">
-                    <div class="card-body text-center">
-                        {% if profile.profile_pic %}
-                        <img src="{{ profile.profile_pic }}" alt="Profile Picture" class="rounded-circle mb-3" style="width: 100px; height: 100px; border: 2px solid #009688; padding: 5px;">
-                        {% endif %}
-                        <h5 class="card-title" style="font-size: 1.25rem; color: #009688;">{{ profile.username }}</h5>
-                        <p class="card-text" style="color: #555;">Age: {{ profile.age }}</p>
-                        <p class="card-text" style="color: #555;">Location: {{ profile.location }}</p>
-                        <p class="card-text" style="color: #555;">Qualification: {{ profile.qualification }}</p>
-                        <p class="card-text" style="color: #555;">{{ profile.description }}</p>
+            {% for profile in profiles %}
+            <div class="col-md-3 mb-4">
+                <a href="{% url 'user:user_profile_detail' profile.user.id %}" class="text-decoration-none">
+                    <div class="card h-90">
+                        <div class="card-body">
+                            {% if profile.profile_pic %}
+                            <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="rounded-circle mb-3 img-fluid">
+                            {% else %}
+                                {% if profile.user.gender == 'F' %}
+                                <img src="{% static 'images/female-avatar.png' %}" alt="Female Avatar" class="rounded-circle mb-3 img-fluid">
+                                {% else %}
+                                <img src="{% static 'images/male-avatar.png' %}" alt="Male Avatar" class="rounded-circle mb-3 img-fluid">
+                                {% endif %}
+                            {% endif %}
+                            <h5 class="card-title">{{ profile.user.username }}</h5>
+                            <p class="card-text"><strong>Location:</strong> {{ profile.city|default:"Not specified" }}</p>
+                            <p class="card-text"><strong>Qualification:</strong> {{ profile.qualification|default:"Not specified" }}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             {% endfor %}
         </div>
     </div>
 </section>
+{% endblock body %}
+
+  
 
 <!-- Services Section -->
 <!-- <section id="services" class="py-5 bg-light">
@@ -120,12 +134,14 @@
     </div>
 </section>
 {% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // You can add any page-specific JavaScript here
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Index page loaded');
     });
+
 </script>
 {% endblock extra_js %}
-{% endblock body %}
+
 

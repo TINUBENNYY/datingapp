@@ -1,4 +1,5 @@
 
+from django.db import IntegrityError
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -25,11 +26,13 @@ class RegisterView(View):
             user = form.save() 
             # user.set_password(form.cleaned_data['password'])
             login(request, user)
-            UserProfile.objects.create(user=user)
-            return redirect('login') #Redirect to a success page
-        else:
-            form = UserCreationForm()
-            return render(request, 'accounts/register.html', {'form': form})
+            try:
+                UserProfile.objects.create(user=user)
+            except IntegrityError:
+                messages.error(request, 'A profile for this user already exists.')
+                return redirect('accounts:login') #Redirect to a success page
+            return redirect('accounts:login')
+        return render(request, 'accounts/register.html', {'form': form})
 
 class LoginView(View):
     def get(self, request):

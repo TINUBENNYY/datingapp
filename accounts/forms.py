@@ -1,9 +1,10 @@
 from django import forms
-from django.forms import ModelForm, Form, TextInput, PasswordInput, CharField,EmailInput, DateInput, Select
+from django.forms import Form, TextInput, PasswordInput, CharField,EmailInput, DateInput, Select
+from django.contrib.auth.forms import UserCreationForm as BaseUserCreationForm
 from .models import MatchPreference, User, UserProfile, EmploymentProfile
 from django.contrib.auth.hashers import make_password
 
-class UserCreationForm(ModelForm):
+class UserCreationForm(BaseUserCreationForm):
     password1 = forms.CharField(
         label="Password",
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
@@ -17,7 +18,7 @@ class UserCreationForm(ModelForm):
 
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "username", "email", "gender", "dob", "phone"]
+        fields = ["first_name", "last_name", "username", "email", "gender", "phone"]
 
         widgets = {
             "first_name": forms.TextInput(attrs={'class': 'form-control'}),
@@ -37,7 +38,7 @@ class UserCreationForm(ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.password = make_password(self.cleaned_data["password1"])
+        user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
         return user
@@ -63,7 +64,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['age', 'dob', 'hobbies', 'interest', 'smoking_habits', 'drinking_habits', 
-                  'qualification', 'profile_pic', 'multiple_images', 'short_reel']
+                  'qualification', 'profile_pic', 'multiple_images', 'short_reel', 'country', 'city', 'address']
         widgets = {
             "age": forms.NumberInput(attrs={'class': 'form-control'}),
             "dob": forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
